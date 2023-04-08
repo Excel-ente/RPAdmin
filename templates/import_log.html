@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block head %}
+
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card ">
+  <div class="row d-flex">
+ 
+      <h1 style="padding: 25px;color:#025e44">Importar LOGS</h1>
+
+  </div>
+</div>
+
+
+<div class="card">
+  <form action="" method="post">
+    {% csrf_token %}
+    <input type="submit" name="action" value="MigrarLog" />
+  </form>
+
+</div>
+
+{% endblock %}

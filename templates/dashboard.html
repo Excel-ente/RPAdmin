@@ -1,0 +1,382 @@
+{% extends 'index.html' %} {% load static %} {% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+{% endblock %} {% block content %}
+<div class="card p-1 container">
+  <div>
+      <div class="row">     
+      
+        <div class="row container">
+          <div class="col-3 p-2" >
+          <img src="{% static 'AdminLTE/img/LGO-SWM.png' %}" alt="" style="height: 200px;padding-left: 20px;">
+        </div>
+          <div class="col-9 p-2 text-center">
+          <h1 style="color: #025e44;text-align: end;"> Reporte general del sector RPA</h1>
+          <p style="color: #025e44;text-align: end;">Reporte generado por RPAdmin</p>
+        </div>
+        </div>
+
+      </div>
+  <div>
+
+      <div class="row"> 
+
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="card">
+            <div class="card-header  text-center" style="background-color: #025e44">
+              <h5 style="color: #ffffff">
+                <b> CANTIDAD DE ROBOTS POR GERENCIA </b>
+              </h5>
+            </div>
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6 p-3">
+                  <table class="table">
+                    <thead style="background-color: #025e44;">
+                    <tbody>
+                        {% for gerencia_data in gerencias_data %}
+                        <tr>
+                            <td style="color: #025e44;"><b>{{ gerencia_data.0 }}</b></td>
+                            <td style="color: #025e44;"><b>{{ gerencia_data.1 }}</b></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-center">
+                  <nav aria-label="Page navigation example">
+                      <ul class="pagination">
+                          {% if gerencias_data.has_previous %}
+                          <li class="page-item">
+                              <a class="page-link" href="?page={{ gerencias_data.previous_page_number }}" aria-label="Previous">
+                                  <span aria-hidden="true">&laquo;</span>
+                              </a>
+                          </li>
+                          {% endif %}
+              
+                          {% for num in gerencias_data.paginator.page_range %}
+                          <li class="page-item {% if gerencias_data.number == num %}active{% endif %}">
+                              <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                          </li>
+                          {% endfor %}
+              
+                          {% if gerencias_data.has_next %}
+                          <li class="page-item">
+                            <a class="page-link" href="?page={{ gerencias_data.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">»</span>
+                            </a>
+                          </li>
+                          {% endif %}
+                      </ul>
+                  </nav>
+                          
+                </div>
+
+                </div>
+                <div class="col-6 p-2">
+                  <canvas id="RobotPorGerencias"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-footer" style="color: #025e44;">
+              <p>En esta tarjeta se muestra el total de robots por cada gerencia, ordenados de mayor a menor.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row"> 
+
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+              <div
+                class="card-header"
+                style="text-align: center; background-color: #025e44"
+              >
+                <h5 style="color: #ffffff">
+                  <b>ANALISIS DE PERFORMANCE DE ROBOT</b>(Cálculo por 30 Dias)
+                </h5>
+                <form method="post">
+                  {% csrf_token %}
+                  <label for="gerencia_select" style="color: #ffffff">Seleccione Gerencia</label>
+                  <select name="gerencia_select" id="gerencia_select">
+                      <option value="">Todas</option>
+                      {% for gerencia in gerencias_select %}
+                          <option value="{{ gerencia.GERENCIA }}" {% if gerencia.GERENCIA == selected_gerencia %} selected {% endif %}>{{ gerencia.GERENCIA }}</option>
+                      {% endfor %}
+                  </select>
+                  <button type="submit">Filtrar</button>
+              </form>
+              </div>
+              <div class="card-body">
+                <canvas id="Performance BOT"></canvas>
+              </div>
+              <div class="card-footer">
+                <p style="color:#025e44;">
+                  El gráfico contempla el tiempo que tardaría un recurso en realizar la tarea vs el espacio en agenda reservado para el robot.
+                </p>
+              </div>
+            </div>
+        </div>
+
+      </div>
+
+      <div class="row"> 
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="card">
+            <div class="card-tools"></div>
+            <div
+              class="card-header"
+              style="text-align: center; background-color: #025e44"
+            >
+              <h5 style="color: #ffffff">
+                <b>HORAS CONSUMIDAS POR SERVIDOR</b>(Total mensual: 720 hs)
+              </h5>
+            </div>
+            <div class="card-body">
+              <canvas id="bar-chart"></canvas>
+            </div>
+            <div class="card-footer">
+              <p style="color: #025e44">
+                Este gráfico indica la cantidad de horas utilizadas por servidor en
+                base a 30 dias. (Solo se muestran aquellos procesos que están
+                calendarizados en la sección "Ejecuciones"
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row"> 
+        <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="card">
+            <div class="card-tools"></div>
+            <div
+              class="card-header text-center"
+              style="background-color: #025e44"
+            >
+              <h5 style="color: #ffffff">
+                <b>PROYECCION DE BENEFICIO EN HORAS POR GERENCIA</b> - Proyección
+                mensual (30 dias)
+              </h5>
+            </div>
+            <div class="card-body">
+              <canvas id="Beneficio-gerencia" height="100px"></canvas>
+            </div>
+            <div class="card-footer">
+              <p style="color: #025e44">
+                Este indicador expone un cálculo aproximado de horas de beneficio
+                por gerencia. <br />
+                Este cálculo surge de multiplicar el tiempo que tarda un recurso
+                para ejecutar la tarea por la cantidad de ejecuciones mensuales.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<script>
+
+  var ctx = document.getElementById('Performance BOT').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for data in grafico_data %}'{{ data.nombre }}',{% endfor %}],
+        datasets: [{
+            label: 'Proceso Automatizado',
+            data: [{% for data in grafico_data %} {{ data.cantidad_ejecuciones }}, {% endfor %}],
+
+            borderColor: '#80d99a',
+            borderWidth: 3
+        },
+        {
+            label: 'Proceso Manual',
+            data: [{% for data in grafico_data %} {{ data.duracion_tarea }}, {% endfor %}],
+            backgroundColor: '#025e44',
+            borderColor: '#025e44',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            },
+          yAxes: [{
+            ticks: {
+                callback: function(value) {
+                    return value + ' horas';
+                },
+                fontColor: '#025e44',
+                fontSize: 14,
+                fontStyle: 'bold',
+
+            }
+          }],
+          xAxes: [{
+              ticks: {
+                  callback: function(value) {
+                      return value;
+                  },
+                  fontColor: '#025e44',
+                  fontSize: 14,
+                  fontStyle: 'bold'
+
+              }
+          }]
+        }
+    }
+});
+
+</script>
+
+<script>
+  var ctx = document.getElementById('RobotPorGerencias').getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+          labels: {{ gerencias_labels|safe }},
+          datasets: [{
+              data: {{ gerencias_values|safe }},
+              backgroundColor: ['#025e44','#3e9d6c','#5fbb83','#80d99a','#a2f7b1','#c4ffc8','#e6ffdf','#1c7e55','#aad2ff','#8cbfff','#1f9d55','#3fbb6c','#5fd983','#7ff7a2','#9fffb4','#b2ffc6','#d4ffd8','#f6ffee','#c8e6ff','#a6c4ff','#025e44','#3e9d6c','#5fbb83','#80d99a','#a2f7b1','#c4ffc8','#e6ffdf','#1c7e55','#aad2ff','#8cbfff','#1f9d55','#3fbb6c','#5fd983','#7ff7a2','#9fffb4','#b2ffc6','#d4ffd8','#f6ffee','#c8e6ff','#a6c4ff'],
+              borderColor: '#025e44',
+          }]
+      },
+      options: {
+          title: {
+            display: false,
+            text: 'Cantidad de Robots por Gerencias',
+            fontColor: '#025e44',
+            fontSize: 10,
+            fontStyle: 'bold'
+          },
+                  
+          legend: {
+            display: false
+          }
+        }
+  });
+</script>
+
+<script>
+
+  var ctx = document.getElementById('bar-chart').getContext('2d');
+  var chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [
+            {% for server in server_data %}
+                '{{ server.name }}',
+            {% endfor %}
+        ],
+        datasets: [{
+            data: [
+                {% for server in server_data %}
+                    {{ server.usage }},
+                {% endfor %}
+            ],
+            backgroundColor: ['#025e44','#80d99a','#5fbb83','#3fbb6c','#e6ffdf','#1c7e55','#aad2ff','#8cbfff','#1f9d55','#c4ffc8','#5fd983','#7ff7a2','#9fffb4','#b2ffc6','#d4ffd8','#f6ffee','#c8e6ff','#a6c4ff'],
+            borderColor: '#025e44',
+            borderWidth: 1
+            
+
+        }
+      ]
+    },
+    options: {
+      title: {
+          display: false,
+          text: 'USO DE SERVIDORES',
+          fontColor: '#025e44',
+          fontSize: 25,
+          fontStyle: 'bold'
+      },
+      scales: {
+          yAxes: [{
+              ticks: {
+                  callback: function(value) {
+                      return value + ' horas';
+                  },
+                  beginAtZero: true,
+                  fontColor: '#025e44',
+                  fontSize: 14,
+                  fontStyle: 'bold',
+                  max:700
+              }
+          }],
+          xAxes: [{
+              ticks: {
+                  callback: function(value) {
+                      return value;
+                  },
+                  fontColor: '#025e44',
+                  fontSize: 14,
+                  fontStyle: 'bold'
+
+              }
+          }]
+      },
+      legend: {
+              display: false
+          }
+  }
+  });
+</script>
+
+<script>
+    var ctx = document.getElementById("Beneficio-gerencia").getContext("2d");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [
+                    {% for gerencia in gerencias %}
+                        '{{ gerencia }}',
+                    {% endfor %}
+                ],
+            datasets: [{
+                label: 'Horas de beneficio',
+
+                data: [
+                    {% for x in horas_totales %}
+                        '{{ x }}',
+                    {% endfor %}
+                ],
+                backgroundColor: '#80d99a',
+                borderColor: '#025e44',
+                borderWidth: 3
+            }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                  callback: function(value) {
+                      return value + ' horas';
+                  },
+                  fontColor: '#025e44',
+                  fontSize: 14,
+                  fontStyle: 'bold'
+              }
+          }],
+                  xAxes: [{
+                      ticks: {
+                          callback: function(value) {
+                              return value;
+                          },
+                          fontColor: '#025e44',
+                          fontSize: 14,
+                          fontStyle: 'bold'
+                      }
+                  }]
+              },
+              legend: {
+                      display: false
+                  }
+        }
+    });
+</script>
+
+</div>
+  {% endblock %}
+

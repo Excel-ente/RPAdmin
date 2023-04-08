@@ -1,0 +1,47 @@
+{% extends 'index.html' %} 
+
+{% load static %} 
+
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <canvas id="Performance BOT"></canvas>
+</div>
+<script>
+    var ctx = document.getElementById('Performance BOT').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for data in grafico_data %}'{{ data.nombre }}',{% endfor %}],
+        datasets: [{
+            label: 'Proceso Automatizado',
+            data: [{% for data in grafico_data %} {{ data.cantidad_ejecuciones }}, {% endfor %}],
+
+            borderColor: '#80d99a',
+            borderWidth: 3
+        },
+        {
+            label: 'Proceso Manual',
+            data: [{% for data in grafico_data %} {{ data.duracion_tarea }}, {% endfor %}],
+            backgroundColor: '#025e44',
+            borderColor: '#025e44',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+</script>
+
+{% endblock %}
+

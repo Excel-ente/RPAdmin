@@ -1,0 +1,144 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block head %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card ">
+  <div class="row d-flex">
+ 
+    {% if fecha_desde and fecha_hasta %}
+      <h1 style="padding: 25px; color: #025e44">Lectura de LOGS - desde ({{ fecha_desde }} - {{ fecha_hasta }})</h1>
+    {% else %}
+      <h1 style="padding: 25px; color: #025e44">Lectura de LOGS por Gerencia</h1>
+    {% endif %}
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="row"> 
+
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-header  text-center" style="background-color: #025e44">
+          <h3 style="color: #ffffff">
+            <b> FILTRAR MONITOREOS POR FECHA </b>
+          </h3>
+          <div class="p-1">
+            <form class="p-3" action="" method="get">
+
+              <label for="desde_fecha" style="color: #ffffff;">Desde:</label>
+              <input type="date" id="desde_fecha" name="desde_fecha" value="{{ desde_fecha }}">
+
+          
+              <label for="hasta_fecha" style="color: #ffffff;">Hasta:</label>
+              <input type="date" id="hasta_fecha" name="hasta_fecha" value="{{ hasta_fecha }}">
+
+            
+              <input type="submit" value="Filtrar">
+          
+            </form>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="row">
+
+            <div class="col-12">
+              <canvas id="Performance"></canvas>
+            </div>
+
+            <div class="col-12 p-2">
+              <table id="mi_tabla" class="table">
+                <thead style="background-color: #025e44;">
+                    <tr>
+                        <th style="color: #ffffff;">PROCESO</th>
+                        <th style="color: #ffffff;" data-orderable="true">EJECUCIONES</th>
+                        <th style="color: #ffffff;" data-orderable="true">WARN</th>
+                        <th style="color: #ffffff;" data-orderable="true">ERROR</th>
+                        <th style="color: #ffffff;" data-orderable="true">FATAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for monitoreo in monitoreos %}
+                    <tr>
+                        <td>{{ monitoreo.gerencia }}</td>
+                        <td>{{ monitoreo.total_finalizado }}</td>
+                        <td>{{ monitoreo.total_warn }}</td>
+                        <td>{{ monitoreo.total_error }}</td>
+                        <td>{{ monitoreo.total_fatal }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            </div>
+            
+          </div>
+        </div>
+
+        <div class="card-footer" style="color: #025e44;">
+          <p></p>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+<script>
+  $(document).ready( function () {
+    $('#mi_tabla').DataTable();
+} );
+</script>
+
+<script>
+  var ctx = document.getElementById('Performance').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for data in datos_filtrados %}'{{ data.gerencia }}',{% endfor %}],
+        datasets: [
+          {
+              label: 'Advertencias - Warn',
+              data: [{% for data in datos_filtrados %} {{ data.total_warn }}, {% endfor %}],
+              borderColor: '#ffc107',
+              borderWidth: 3
+          },
+          {
+            label: 'Errores - Error',
+            data: [{% for data in datos_filtrados %} {{ data.total_error }}, {% endfor %}],
+
+            borderColor: '#fd7e14',
+            borderWidth: 3
+          },
+          {
+              label: 'Errores Fatales - Fatal',
+              data: [{% for data in datos_filtrados %} {{ data.total_fatal }}, {% endfor %}],
+              borderColor: '#dc3545',
+              borderWidth: 3
+          },
+          {
+            label: 'Ejecuciones totales',
+            data: [{% for data in datos_filtrados %} {{ data.total_finalizado }}, {% endfor %}],
+            backgroundColor: '#025e44',
+            borderColor: '#025e44',
+            borderWidth: 1
+          },
+        ]
+    }
+
+});
+
+</script>
+
+{% endblock %}

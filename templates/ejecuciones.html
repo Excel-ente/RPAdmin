@@ -1,0 +1,101 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block head %}
+
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card ">
+  <div class="row d-flex">
+ 
+      <h1 style="padding: 25px;color:#025e44">Ejecuciones</h1>
+
+  </div>
+</div>
+
+
+<div class="card">
+
+  <div class="row"> 
+    {% for name in NombresServersProductivos %}
+
+
+    <div class="card-body col-3">
+      <div >
+        <div class="card card-row" style="background-color: #cefaed;">
+          <div class="card-header" style="background-color: #025e44;">
+            <h4 class="text-light p-0" style="text-align: center;"><b>{{ name }}</b></h4>
+          </div>
+          <div style="padding-top: 5px;"></div>
+            {% for x in SrvsProduccion %}
+            {% if x.HOSTNAME == name %}
+
+              {% for h in EjecsPrd %}
+                {% if h.SERVIDOR.HOSTNAME == name %}
+                  <div class="container" style="border-top: 2px;">
+                    <div class="small-box bg-muted p-1 b-3 " style="border: 2px solid #025e44;color: #025e44;">
+                      <div class="inner">
+                        <h4><b style="color: #025e44">{{ h.ROBOT.NOMBRE }}</h4></b>
+                        <div style="height: 5px;"></div>
+                          
+                          {% if h.TIPO_EJECUCION == "Diario" %}
+                        
+                          <p style="margin: 0;color: #025e44;"><i class="fa fa-calendar">&nbsp </i><b>Ejecución <span style="color: crimson;">semanal </span>los dias:</b>
+                          <ul class="list p-0" style="color: crimson;list-style: none;">
+                            
+                            {% if h.DOM == True %}
+                            <li><b> Domingo</b></li>
+                            {% endif %}
+                            {% if h.LUN == True %}
+                            <li><b> Lunes</b></li>
+                            {% endif %}
+                            {% if h.MAR == True %}
+                            <li><b> Martes</b></li>
+                            {% endif %}
+                            {% if h.MIE == True %}
+                            <li><b> Miercoles</b></li>
+                            {% endif %}
+                            {% if h.JUE == True %}
+                            <li><b> Jueves</b></li>
+                            {% endif %}
+                            {% if h.VIE == True %}
+                            <li><b> Viernes</b></li>
+                            {% endif %}
+                            {% if h.SAB == True %}
+                            <li><b> Sabado</b></li>
+                            {% endif %}
+
+                          </ul>
+                          {% else %}
+                          <p style="margin: 0;color: #025e44;"><i class="fa fa-calendar">&nbsp </i><b>Tipo de ejecución:&nbsp <span style="color: crimson;">{{ h.TIPO_EJECUCION }}</span></b>
+                          {% endif %}
+                        <p style="margin: 0;color: #025e44;"><i class="fa fa-clock">&nbsp </i><b>Horario:</b><b style="color: crimson;"> &nbsp{{ h.HORA_INICIO_EJECUCION }} &nbsp : &nbsp {{ h.HORA_FIN_CALCULADA }} hs </b></p>
+                        <p style="margin: 0;color: black;"><i class="fa fa-chart-bar" style="color: #025e44;">&nbsp </i><b style="color: #025e44;">Cálculo FTE :&nbsp</b> <b style="color: crimson;">{{ h.FTE }} %</b></p>
+                        <p style="margin: 0;color: black;"><i class="fa fa-play" style="color: #025e44;">&nbsp </i><b style="color: #025e44;">Consumo Mensual Agenda: &nbsp</b ><b style="color: crimson;">{{ h.CONSUMO_TOTAL }} Horas</b> </p>
+                      </div>
+                      <div class="icon">
+                        <i class="fa fa-hourglass"></i>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}  
+              {% endfor %}
+
+            {% endif %}
+            {% endfor %}
+        </div> 
+      </div>
+    </div>
+      
+    {% endfor %}
+  </div>
+  
+</div>
+
+{% endblock %}
+
+
