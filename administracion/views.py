@@ -57,6 +57,7 @@ def monitoreo(request):
 
     return render(request, 'monitoreo.html', context)
 
+
 def monitoreoGerencias(request):
 
     monitoreos = Monitoreo.objects.values('Gerencia').annotate(
@@ -105,6 +106,7 @@ def monitoreoGerencias(request):
     }
 
     return render(request, 'monitoreo.html', context)
+
 
 def servidor(request):
 

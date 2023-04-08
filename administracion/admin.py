@@ -46,7 +46,7 @@ class claseRobots(ImportExportModelAdmin):
     list_display=('NOMBRE_APELLIDO','EMPRESA','CARGO','MAIL','TELEFONO','COMENTARIOS',)
 
 @admin.register(ejecucionesProcesos)
-class claseEjecuciones(admin.ModelAdmin):
+class claseEjecuciones(ImportExportModelAdmin):
 
     list_display=('ROBOT','HORA_INICIO_EJECUCION','HORA_FIN_CALCULADA','SERVIDOR','TIPO_EJECUCION','ESPACIO_AGENDA_MIN','CONSUMO_TOTAL','DURACION_MENSUAL','CANTIDAD_EJECUCIONES_MENSUALES','FTE','COMENTARIOS',)
     ordering=('CONSUMO_TOTAL',)
@@ -55,7 +55,7 @@ class claseEjecuciones(admin.ModelAdmin):
     list_per_page = 100
 
 @admin.register(incidencias)
-class clasePs(admin.ModelAdmin):
+class clasePs(ImportExportModelAdmin):
     list_display=('NOMBRE_INDICENCIA','N_INCIDENTE','FECHA_SOLICITUD','ESTADO','ASIGNADO_A','COMENTARIOS',)
     ordering=('-ULTIMA_ACTUALIZACION',)
     search_fields= ('NOMBRE_INDICENCIA',)
