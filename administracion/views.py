@@ -253,6 +253,15 @@ def dashboard(request):
             })
 
 
+        for gerencia in gerencias:
+
+            robots_count = robots.objects.filter(GERENCIA=gerencia, ESTADO="Activo").count()
+
+            if robots_count > 0:
+                gerencias_labels.append(gerencia.GERENCIA)
+                gerencias_values.append(robots_count)
+
+
         gerencias_data = list(zip(gerencias_labels, gerencias_values))
         gerencias_data = sorted(gerencias_data, key=lambda x: x[1], reverse=True)
 
