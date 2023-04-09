@@ -1,8 +1,12 @@
 from django.contrib import admin
 from .models import *
+
 # Register your models here.
 
 from import_export.admin import ImportExportModelAdmin
+
+admin.site.site_header = "RPAdmin"
+admin.site.site_title = "Sistema de gestion de procesos"
 
 from .BdLogs import MigrarLog
 from .Imporador import *
