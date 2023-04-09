@@ -9,62 +9,70 @@
 
 {% block content %}
 
-<div class="card ">
-  <div class="row d-flex">
- 
-      <h1 style="padding: 25px;color:#025e44">Procesos en servidores productivos</h1>
+{% if user.is_authenticated %}
+  <div class="card ">
+    <div class="row d-flex">
+  
+        <h1 style="padding: 25px;color:#025e44">Procesos en servidores productivos</h1>
 
+    </div>
   </div>
-</div>
 
 
-<div class="card">
+  <div class="card">
 
-  <div class="row"> 
-    {% for name in NombresServersProductivos %}
-      <div class="card-body col-3">
-        <div >
-          <div class="card card-row" style="background-color: #cefaed;">
+    <div class="row"> 
+      {% for name in NombresServersProductivos %}
+        <div class="card-body col-3">
+          <div >
+            <div class="card card-row" style="background-color: #cefaed;">
 
-              <div class="card-header" style="background-color: #025e44;">
-                <h4 class="text-light p-0" style="text-align: center;"><b>{{ name }}</b></h4>
-              </div>
+                <div class="card-header" style="background-color: #025e44;">
+                  <h4 class="text-light p-0" style="text-align: center;"><b>{{ name }}</b></h4>
+                </div>
 
-            <div style="padding-top: 5px;"></div>
-              {% for x in SrvsProduccion %}
-              {% if x.HOSTNAME == name %}
-                {% for h in robot %}
-                {% if h.SERVIDOR.HOSTNAME == name %}
-                  <div class="container" style="border-top: 2px;">
-                    <div class="small-box bg-muted p-1 b-3 " style="border: 2px solid #025e44;color: #025e44;">
-                      <div class="inner">
-                        <h4><b style="color: #025e44">{{ h.NOMBRE }}</h4></b>
-                        {% if h.ATENDIDO == "Atendido" %}
-                        <p style="margin: 0;color: #025e44;"><i class="fa fa-toggle-on">&nbsp </i>{{ h.ATENDIDO }}</p>
-                        {% else %}
-                        <p style="margin: 0;color: #025e44;"><i class="fa fa-toggle-off" style="color: rgb(106, 106, 106);">&nbsp </i>{{ h.ATENDIDO }}</p>
-                        {% endif %}
-                        <div style="height: 5px;"></div>
-                        <p style="margin: 0;color: #025e44;"><i class="fa fa-shopping-bag">&nbsp </i><b>Gerencia:</b></p><p class="text-dark">{{ h.GERENCIA }}</p> 
-                        <p style="margin: 0;color: #025e44;"><i class="fa fa-user">&nbsp </i><b>Usuario:</b> </p><p class="text-dark">{{ h.USUARIO }}</p>
-                        <p style="margin: 0;color: black;"><i class="fa fa-box" style="color: #025e44;">&nbsp </i><b style="color: #025e44;">Ult. Paquete:</b> {{ h.ULTIMO_PAQUETE }}</p>
-                        <p style="margin: 0;color: black;"><i class="fa fa-calendar" style="color: #025e44;">&nbsp </i><b style="color: #025e44;">Fecha Actualizacion:</b> {{ h.ULTIMA_ACTUALIZACION }}</p>
-                      </div>
-                      <div class="icon">
-                        <i class="fas fa-robot"></i>
+              <div style="padding-top: 5px;"></div>
+                {% for x in SrvsProduccion %}
+                {% if x.HOSTNAME == name %}
+                  {% for h in robot %}
+                  {% if h.SERVIDOR.HOSTNAME == name %}
+                    <div class="container" style="border-top: 2px;">
+                      <div class="small-box bg-muted p-1 b-3 " style="border: 2px solid #025e44;color: #025e44;">
+                        <div class="inner">
+                          <h4><b style="color: #025e44">{{ h.NOMBRE }}</h4></b>
+                          {% if h.ATENDIDO == "Atendido" %}
+                          <p style="margin: 0;color: #025e44;"><i class="fa fa-toggle-on">&nbsp </i>{{ h.ATENDIDO }}</p>
+                          {% else %}
+                          <p style="margin: 0;color: #025e44;"><i class="fa fa-toggle-off" style="color: rgb(106, 106, 106);">&nbsp </i>{{ h.ATENDIDO }}</p>
+                          {% endif %}
+                          <div style="height: 5px;"></div>
+                          <p style="margin: 0;color: #025e44;"><i class="fa fa-shopping-bag">&nbsp </i><b>Gerencia:</b></p><p class="text-dark">{{ h.GERENCIA }}</p> 
+                          <p style="margin: 0;color: #025e44;"><i class="fa fa-user">&nbsp </i><b>Usuario:</b> </p><p class="text-dark">{{ h.USUARIO }}</p>
+                          <p style="margin: 0;color: black;"><i class="fa fa-box" style="color: #025e44;">&nbsp </i><b style="color: #025e44;">Ult. Paquete:</b> {{ h.ULTIMO_PAQUETE }}</p>
+                          <p style="margin: 0;color: black;"><i class="fa fa-calendar" style="color: #025e44;">&nbsp </i><b style="color: #025e44;">Fecha Actualizacion:</b> {{ h.ULTIMA_ACTUALIZACION }}</p>
+                        </div>
+                        <div class="icon">
+                          <i class="fas fa-robot"></i>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                {% endif %}  
+                  {% endif %}  
+                  {% endfor %}
+                {% endif %}
                 {% endfor %}
-              {% endif %}
-              {% endfor %}
-          </div> 
+            </div> 
+          </div>
         </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
+    
   </div>
-  
-</div>
+
+{% else %}
+  <div class="card container">
+    <p>Por favor, inicia sesión.</p>
+    <a href="{% url 'login' %}">Iniciar sesión</a>
+  </div>
+{% endif %}
 
 {% endblock %}

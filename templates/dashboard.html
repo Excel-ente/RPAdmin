@@ -266,14 +266,14 @@
     type: 'bar',
     data: {
         labels: [
-            {% for server in server_data %}
-                '{{ server.name }}',
+            {% for server in servidores_data %}
+                '{{ server.servidor }}',
             {% endfor %}
         ],
         datasets: [{
             data: [
-                {% for server in server_data %}
-                    {{ server.usage }},
+                {% for server in servidores_data %}
+                  {{ server.uso }},
                 {% endfor %}
             ],
             backgroundColor: ['#025e44','#80d99a','#5fbb83','#3fbb6c','#e6ffdf','#1c7e55','#aad2ff','#8cbfff','#1f9d55','#c4ffc8','#5fd983','#7ff7a2','#9fffb4','#b2ffc6','#d4ffd8','#f6ffee','#c8e6ff','#a6c4ff'],

@@ -42,200 +42,203 @@
 
 </head>
 
-<body class="hold-transition sidebar-mini sidebar-collapse">
-  <div class="wrapper">
+
+  <body class="hold-transition sidebar-mini sidebar-collapse">
+    <div class="wrapper">
 
 
-    <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-danger" style="background-color: #025e44;">
-      <!-- Left navbar links -->
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-plus" style="color: azure;"></i></a>
-        </li>
+      <!-- Navbar -->
+      <nav class="main-header navbar navbar-expand navbar-danger" style="background-color: #025e44;">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fa fa-plus" style="color: azure;"></i></a>
+          </li>
 
-      </ul>
-  
-      <!-- Right navbar links -->
-      <ul class="navbar-nav ml-auto">
-
-  
-
-        <li class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="fa fa-user-circle text-light"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <div class="dropdown-divider"></div>
-
-            <a href="/admin/" class="dropdown-item">
-              <i class="fa fa-id-card mr-2"></i> Ingresar a la plataforma
-            </a>
-            <a href="/logout/" class="dropdown-item">
-              <i class="fa fa-key mr-2"></i> Cerrar Sesíon
-            </a>
-            <div class="dropdown-divider"></div>
-          </div>
-        </li>
-
-      </ul>
-    </nav>
-    <!-- /.navbar -->
-
-    <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-link" style="background-color: #025e44;color: black;">
-      <!-- Brand Logo -->
-      <a href="/" class="brand-link" >
-        <img src="{% static 'AdminLTE/img/LOGO-CHICO.png' %}" alt="AdminLTE Logo" class="brand-image" >
-        <span class="brand-text font-weight-light"><b style="color:white"> RPAdmin</b></span>
-      </a>
-
-      <!-- Sidebar -->
-      <div class="sidebar" style="background-color: #025e44;">
-
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
-          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <li class="nav-item menu-open" >
-
-              <!--DASHBOARD-->
-              <li class="nav-item">
-                <a href="/" class="nav-link" style="color: aliceblue;">
-                  <i class="nav-icon fa fa-tachometer-alt"></i>
-                  <p>
-                    Dashboard
-                  </p>
-                </a>
-              </li>
-
-              <!--SERVIDORES-->
-              <li class="nav-item">
-                <a href="/servidores/" class="nav-link" style="color: aliceblue;"> 
-                  <i class="nav-icon fa fa-server"></i>
-                  <p>
-                    Servidores
-                  </p>
-                </a>
-              </li>
-
-              <!--PROCESOS-->
-              <li class="nav-item">
-                <a href="/procesos/" class="nav-link"  style="color: aliceblue;">
-                  <i class="nav-icon fas fa-robot"></i>
-                  <p>
-                    Robots
-                  </p>
-                </a>
-              </li>
-
-              <!--EJECUCIONES-->
-              <li class="nav-item">
-                <a href="/ejecuciones/" class="nav-link" style="color: aliceblue;">
-                  <i class="nav-icon fa fa-hourglass"></i>
-                  <p>
-                    Ejecuciones
-                  </p>
-                </a>
-              </li>
-
-              <!--AGENDA DE SERVIDOR-->
-              <li class="nav-item">
-                <a href="/monitoreo" class="nav-link" style="color: aliceblue;">
-                  <i class="fa fa-info-circle nav-icon"></i>
-                  <p>
-                    Monitoreo
-                  </p>
-                </a>
-              </li>
-              
+        </ul>
     
-              <li class="nav-item">
-                <a href="/admin/" class="nav-link" style="color: aliceblue;">
-                  <i class="fa fa-share nav-icon"></i>
-                  <p>Ingresar a la plataforma</p>
-                </a>
-              </li>
-         
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+
+    
+
+          <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+              <i class="fa fa-user-circle text-light"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+              <div class="dropdown-divider"></div>
+
+              <a href="/admin/" class="dropdown-item">
+                <i class="fa fa-id-card mr-2"></i> Ingresar a la plataforma
+              </a>
+              <a href="/admin/logout/" class="dropdown-item">
+                <i class="fa fa-key mr-2"></i> Cerrar Sesíon
+              </a>
+              <div class="dropdown-divider"></div>
+            </div>
+          </li>
+
+        </ul>
+      </nav>
+      <!-- /.navbar -->
+
+      <!-- Main Sidebar Container -->
+      <aside class="main-sidebar sidebar-link" style="background-color: #025e44;color: black;">
+        <!-- Brand Logo -->
+        <a href="/" class="brand-link" >
+          <img src="{% static 'AdminLTE/img/LOGO-CHICO.png' %}" alt="AdminLTE Logo" class="brand-image" >
+          <span class="brand-text font-weight-light"><b style="color:white"> RPAdmin</b></span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar" style="background-color: #025e44;">
+
+          <!-- Sidebar Menu -->
+          <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+              <li class="nav-item menu-open" >
+
+                <!--DASHBOARD-->
+                <li class="nav-item">
+                  <a href="/" class="nav-link" style="color: aliceblue;">
+                    <i class="nav-icon fa fa-tachometer-alt"></i>
+                    <p>
+                      Dashboard
+                    </p>
+                  </a>
+                </li>
+
+                <!--SERVIDORES-->
+                <li class="nav-item">
+                  <a href="/servidores/" class="nav-link" style="color: aliceblue;"> 
+                    <i class="nav-icon fa fa-server"></i>
+                    <p>
+                      Servidores
+                    </p>
+                  </a>
+                </li>
+
+                <!--PROCESOS-->
+                <li class="nav-item">
+                  <a href="/procesos/" class="nav-link"  style="color: aliceblue;">
+                    <i class="nav-icon fas fa-robot"></i>
+                    <p>
+                      Robots
+                    </p>
+                  </a>
+                </li>
+
+                <!--EJECUCIONES-->
+                <li class="nav-item">
+                  <a href="/ejecuciones/" class="nav-link" style="color: aliceblue;">
+                    <i class="nav-icon fa fa-hourglass"></i>
+                    <p>
+                      Ejecuciones
+                    </p>
+                  </a>
+                </li>
+
+                <!--AGENDA DE SERVIDOR-->
+                <li class="nav-item">
+                  <a href="/monitoreo" class="nav-link" style="color: aliceblue;">
+                    <i class="fa fa-info-circle nav-icon"></i>
+                    <p>
+                      Monitoreo
+                    </p>
+                  </a>
+                </li>
+                
+      
+                <li class="nav-item">
+                  <a href="/admin/" class="nav-link" style="color: aliceblue;">
+                    <i class="fa fa-share nav-icon"></i>
+                    <p>Ingresar a la plataforma</p>
+                  </a>
+                </li>
+          
 
 
-          </ul>
-          </ul>  
-        </nav>
-        <!-- /.sidebar-menu -->
-
-      </div>
-      <!-- /.sidebar -->
-    </aside>
-
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper" >
-      <section class="header"><div ></div></section>
-      <!-- Main content -->
-      <section class="content" >
-        <div style="padding-top: 10px;">
-
-          {% block content %}
-          {% endblock %}
+            </ul>
+            </ul>  
+          </nav>
+          <!-- /.sidebar-menu -->
 
         </div>
-      </section>
-      <!-- /.content -->
-    </div>
+        <!-- /.sidebar -->
+      </aside>
 
-    <!-- /.content-wrapper -->
-    <footer class="main-footer" style="color:#025e44;background-color: white;">
-      Hecho con ♥ por EXCEL-ENTE - <strong>Copyright &copy; 2022-2023 <b style="color: #025e44;"> RPAdmin</b>.</strong>
-      <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1.0.1
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper" >
+        <section class="header"><div ></div></section>
+        <!-- Main content -->
+        <section class="content" >
+          <div style="padding-top: 10px;">
+
+            {% block content %}
+            {% endblock %}
+
+          </div>
+        </section>
+        <!-- /.content -->
       </div>
-    </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-  </div>
-<!-- ./wrapper -->
+      <!-- /.content-wrapper -->
+      <footer class="main-footer" style="color:#025e44;background-color: white;">
+        Hecho con ♥ por EXCEL-ENTE - <strong>Copyright &copy; 2022-2023 <b style="color: #025e44;"> RPAdmin</b>.</strong>
+        <div class="float-right d-none d-sm-inline-block">
+          <b>Version</b> 1.0.1
+        </div>
+      </footer>
 
-<!-- jQuery -->
-<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+      <!-- Control Sidebar -->
+      <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+      </aside>
+      <!-- /.control-sidebar -->
+    </div>
+  <!-- ./wrapper -->
 
-<!-- Bootstrap 4 -->
-<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<!-- ChartJS -->
-<script src="{% static 'plugins/chart.js/Chart.min.js' %}"></script>
-<!-- Sparkline -->
-<script src="{% static 'plugins/sparklines/sparkline.js' %}"></script>
-<!-- JQVMap -->
-<script src="{% static 'plugins/jqvmap/jquery.vmap.min.js' %}"></script>
-<script src="{% static 'plugins/jqvmap/maps/jquery.vmap.usa.js' %}"></script>
-<!-- jQuery Knob Chart -->
-<script src="{% static 'plugins/jquery-knob/jquery.knob.min.js' %}"></script>
-<!-- daterangepicker -->
-<script src="{% static 'plugins/moment/moment.min.js' %}"></script>
-<script src="{% static 'plugins/daterangepicker/daterangepicker.js' %}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{% static 'plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
-<!-- Summernote -->
-<script src="{% static 'plugins/summernote/summernote-bs4.min.js' %}"></script>
-<!-- overlayScrollbars -->
-<script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
-<!-- AdminLTE App -->
-<script src="{% static 'AdminLTE/js/adminlte.js' %}"></script>
+  <!-- jQuery -->
+  <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{% static 'dist/js/pages/dashboard.js' %}"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- ChartJS -->
+  <script src="{% static 'plugins/chart.js/Chart.min.js' %}"></script>
+  <!-- Sparkline -->
+  <script src="{% static 'plugins/sparklines/sparkline.js' %}"></script>
+  <!-- JQVMap -->
+  <script src="{% static 'plugins/jqvmap/jquery.vmap.min.js' %}"></script>
+  <script src="{% static 'plugins/jqvmap/maps/jquery.vmap.usa.js' %}"></script>
+  <!-- jQuery Knob Chart -->
+  <script src="{% static 'plugins/jquery-knob/jquery.knob.min.js' %}"></script>
+  <!-- daterangepicker -->
+  <script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+  <script src="{% static 'plugins/daterangepicker/daterangepicker.js' %}"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="{% static 'plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+  <!-- Summernote -->
+  <script src="{% static 'plugins/summernote/summernote-bs4.min.js' %}"></script>
+  <!-- overlayScrollbars -->
+  <script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+  <!-- AdminLTE App -->
+  <script src="{% static 'AdminLTE/js/adminlte.js' %}"></script>
 
-<!-- fullCalendar 2.2.5 -->
-<script src="{% static 'plugins/moment/moment.min.js' %}"></script>
-<script src="{% static 'plugins/fullcalendar/main.js' %}"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="{% static 'dist/js/pages/dashboard.js' %}"></script>
+
+  <!-- fullCalendar 2.2.5 -->
+  <script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+  <script src="{% static 'plugins/fullcalendar/main.js' %}"></script>
 
 
 
-<!-- Page specific script -->
-</body>
+  <!-- Page specific script -->
+  </body>
+
+
 </html>

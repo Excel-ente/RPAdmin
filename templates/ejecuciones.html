@@ -9,6 +9,8 @@
 
 {% block content %}
 
+
+{% if user.is_authenticated %}
 <div class="card ">
   <div class="row d-flex">
  
@@ -95,6 +97,13 @@
   </div>
   
 </div>
+{% else %}
+    <div class="card container">
+      <p>Por favor, inicia sesión.</p>
+      <a href="{% url 'login' %}">Iniciar sesión</a>
+    </div>
+{% endif %}
+
 
 {% endblock %}
 

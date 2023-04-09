@@ -15,4 +15,5 @@ urlpatterns = [
     path('procesos/', procesos, name='procesos'),
     path('ejecuciones/', ejecuciones , name='ejecuciones'),
     path('export/',export_pdf,name='export'),
+    path('login/',login_view,name='login'),
 ]

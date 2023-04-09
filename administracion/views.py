@@ -1,3 +1,4 @@
+from audioop import avg
 from django.shortcuts import redirect, render
 from .models import *
 from django.db.models import Sum, Count,F, Case, When
@@ -7,6 +8,28 @@ import requests
 import pdfkit
 from .BdLogs import MigrarLog
 from datetime import date
+
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from .forms import LoginForm
+
+def login_view(request):
+
+    if request.method == 'POST':
+        form = LoginForm(request, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('dashboard')
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
+
+
+
 
 def monitoreo(request):
 
@@ -198,51 +221,70 @@ def ejecuciones(request):
 
 def dashboard(request):
 
-    Robots = robots.objects.all()
-    gerencias = Gerencia.objects.all()
+    if request.user.is_authenticated:
 
-    gerencias_labels = []
-    gerencias_values = []
-    grafico_data = []
+        Robots = robots.objects.all()
+        gerencias = Gerencia.objects.all()
+        Servers = servidores.objects.all()
+        ejecs = ejecucionesProcesos.objects.all()
 
-    for gerencia in gerencias:
+        SrvsProduccion =  Servers.filter(TIPO="Produccion")
 
-        robots_count = robots.objects.filter(GERENCIA=gerencia, ESTADO="Activo").count()
+        HorasUso = 0
+        NameProcess = ''
 
-        if robots_count > 0:
-            gerencias_labels.append(gerencia.GERENCIA)
-            gerencias_values.append(robots_count)
+        servidores_data = []
+        gerencias_labels = []
+        gerencias_values = []
+        grafico_data = []
 
-    gerencias_data = list(zip(gerencias_labels, gerencias_values))
-    gerencias_data = sorted(gerencias_data, key=lambda x: x[1], reverse=True)
+        for srv in SrvsProduccion:
 
-    paginator = Paginator(gerencias_data, 10)
-    page = request.GET.get('page')
-    gerencias_data = paginator.get_page(page)
+            HorasUso = 0
+            NameProcess = srv.HOSTNAME
 
-
-
-    for Rob in Robots:
-        if Rob.ESTADO =="Activo":
-            cantidad_ejecuciones = Rob.ejecucionesprocesos_set.all().aggregate(Sum('CANTIDAD_EJECUCIONES_MENSUALES',default=0))['CANTIDAD_EJECUCIONES_MENSUALES__sum']
-            duracion_tarea = Rob.ejecucionesprocesos_set.all().aggregate(Sum('DURACION_TAREA_MINUTOS_MANUAL',default=0))['DURACION_TAREA_MINUTOS_MANUAL__sum']
-            espacio_agenda = Rob.ejecucionesprocesos_set.all().aggregate(Sum('ESPACIO_AGENDA_MIN',default=0))['ESPACIO_AGENDA_MIN__sum']
-            cantidad_ejecuciones_horas, cantidad_ejecuciones_minutos = divmod(cantidad_ejecuciones*espacio_agenda, 60)
-            duracion_tarea_horas, duracion_tarea_minutos = divmod(cantidad_ejecuciones * duracion_tarea, 60)
-            grafico_data.append({'nombre': Rob.NOMBRE, 'cantidad_ejecuciones': cantidad_ejecuciones_horas, 'duracion_tarea': duracion_tarea_horas})
-
-    print(grafico_data)
+            for x in ejecs:
+                if x.SERVIDOR.HOSTNAME == NameProcess and x.ROBOT.ESTADO=="Activo":
+                    HorasUso = HorasUso + int(x.CONSUMO_TOTAL)
+                
+            servidores_data.append({
+                'servidor': NameProcess,
+                'uso': HorasUso,
+            })
 
 
-    context = {
-        'gerencias_labels': gerencias_labels,
-        'gerencias_values': gerencias_values,
-        "gerencias_data":gerencias_data,
-        "grafico_data":grafico_data,
+        gerencias_data = list(zip(gerencias_labels, gerencias_values))
+        gerencias_data = sorted(gerencias_data, key=lambda x: x[1], reverse=True)
 
-        }
+        paginator = Paginator(gerencias_data, 10)
+        page = request.GET.get('page')
+        gerencias_data = paginator.get_page(page)
 
-    return render(request, 'dashboard.html', context)
+
+        for Rob in Robots:
+            if Rob.ESTADO =="Activo":
+                cantidad_ejecuciones = Rob.ejecucionesprocesos_set.all().aggregate(Sum('CANTIDAD_EJECUCIONES_MENSUALES',default=0))['CANTIDAD_EJECUCIONES_MENSUALES__sum']
+                duracion_tarea = Rob.ejecucionesprocesos_set.all().aggregate(Sum('DURACION_TAREA_MINUTOS_MANUAL',default=0))['DURACION_TAREA_MINUTOS_MANUAL__sum']
+                espacio_agenda = Rob.ejecucionesprocesos_set.all().aggregate(Sum('ESPACIO_AGENDA_MIN',default=0))['ESPACIO_AGENDA_MIN__sum']
+                cantidad_ejecuciones_horas, cantidad_ejecuciones_minutos = divmod(cantidad_ejecuciones*espacio_agenda, 60)
+                duracion_tarea_horas, duracion_tarea_minutos = divmod(cantidad_ejecuciones * duracion_tarea, 60)
+                grafico_data.append({'nombre': Rob.NOMBRE, 'cantidad_ejecuciones': cantidad_ejecuciones_horas, 'duracion_tarea': duracion_tarea_horas})
+
+        context = {
+            'gerencias_labels': gerencias_labels,
+            'gerencias_values': gerencias_values,
+            "gerencias_data":gerencias_data,
+            "grafico_data":grafico_data,
+            'servidores_data':servidores_data,
+            }
+
+        return render(request, 'dashboard.html', context)
+
+    else:
+
+        return redirect('login')
+
+
 
 
 def export_pdf(request):
