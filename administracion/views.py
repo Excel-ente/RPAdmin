@@ -349,7 +349,7 @@ def dashboard(request):
 
         gerenciasFiltradas = gerencias.annotate(
             horas_totales=Sum(
-                F('robots__ejecucionesprocesos__CONSUMO_TOTAL'), 
+                F('robots__ejecucionesprocesos__DURACION_TAREA_MINUTOS_MANUAL'), 
                 output_field=models.IntegerField()
             )
         )
