@@ -183,6 +183,7 @@ class ejecucionesProcesos(models.Model):
         if CONSUM > 0:
             self.CONSUMO_TOTAL = CONSUM / 60
 
+        self.FTE = self.CONSUMO_TOTAL / self.DURACION_MENSUAL
 
         lista = []
 
